@@ -38,10 +38,6 @@ export const useStore = <S extends Store, ST = ReturnType<S['getState']>>(
   );
 };
 
-export const createSelector = <FN extends (state: State) => any>(
-  selector: FN
-) => selector;
-
 export const createUseSelector = <
   S extends Store,
   ST extends ReturnType<S['getState']>

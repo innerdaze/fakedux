@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createSelector } from './lib/fakedux';
+import { createSelector } from 'reselect';
 import { StoreType, useSelector } from './store';
 // import { StoreProvider, useUpdateStore } from './store';
 import './style.css';
@@ -46,12 +46,12 @@ const StoreTrigger = ({ id }: StateTriggerProps) => {
 };
 
 // DEMO
-const metaStatusSelector = createSelector(
-  (state: StoreType) => state.meta.status
-);
+const metaStatusSelector = (state: StoreType) => state.meta.status;
+const clicksSelector = (state: StoreType) => state.actions.clicks;
 
-const clicksSelector = createSelector(
-  (state: StoreType) => state.actions.clicks
+const clicksDoubledSelector = createSelector(
+  clicksSelector,
+  (clicks) => clicks * 2
 );
 
 const FirstComponent = React.memo(() => {
@@ -71,6 +71,7 @@ const FirstComponent = React.memo(() => {
 
 const SecondComponent = React.memo(() => {
   const [metaStatus] = useSelector(metaStatusSelector);
+  const [clicksDoubled] = useSelector(clicksDoubledSelector);
 
   return (
     <div style={{ backgroundColor: 'magenta' }}>
@@ -79,6 +80,7 @@ const SecondComponent = React.memo(() => {
         <StoreTrigger id="Second Store" />
 
         <p>[State] Meta Status: {metaStatus}</p>
+        <p>[Store] Clicks Doubled: {clicksDoubled}</p>
       </MountCountWrapper>
     </div>
   );
