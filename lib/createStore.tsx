@@ -26,7 +26,7 @@ export const createStore = <State extends Record<string, unknown>>(
 
 export type Store = ReturnType<typeof createStore>;
 export type State = Record<string, unknown>;
-export type Selector<S extends State, V extends unknown = unknown> = (
+export type Selector<S extends Record<string, unknown> = State, V = any> = (
   state: S
 ) => V;
 
@@ -35,10 +35,10 @@ export const useStore = <
   ST extends Record<string, unknown> = ReturnType<S['getState']>
 >(
   store: S,
-  selector: Selector<ST>
+  selector: Selector<ST, any>
 ) => {
   return React.useSyncExternalStore<ST>(
     store.subscribe,
-    React.useCallback(() => selector(store.getState()), [store, selector])
+    React.useCallback(() => selector(store.getState() as ST), [store, selector])
   );
 };
