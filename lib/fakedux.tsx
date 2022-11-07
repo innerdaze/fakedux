@@ -26,12 +26,9 @@ export const createStore = <State extends Record<string, unknown>>(
 
 export type Store = ReturnType<typeof createStore>;
 export type State = Record<string, unknown>;
-export type Selector<S extends State, V = any> = (state: S) => V;
+export type Selector<S = any, V = any> = (state: S) => V;
 
-export const useStore = <
-  S extends Store,
-  ST extends State = ReturnType<S['getState']>
->(
+export const useStore = <S extends Store, ST = ReturnType<S['getState']>>(
   store: S,
   selector: Selector<ST, any>
 ) => {
@@ -41,19 +38,24 @@ export const useStore = <
   );
 };
 
-export const createSelector = <ST extends State, V = any>(
-  selector: Selector<ST, V>
+export const createSelector = <FN extends (state: State) => any>(
+  selector: FN
 ) => selector;
 
-export const createUseSelector = <S extends Store>(store: S) => {
+export const createUseSelector = <
+  S extends Store,
+  ST extends ReturnType<S['getState']>
+>(
+  store: S
+) => {
   const useSelector = <V extends any>(
-    selector: Selector<S, V>
+    selector: Selector<ST, V>
     // compareFn: (oldValue: V, newValue: V) => boolean = (oldValue, newValue) =>
     //   oldValue === newValue
-  ) => {
+  ): [V, (fn: (state: ST) => ST) => void] => {
     const newValue = useStore(store, selector);
 
-    return [newValue, store.setState] as [V, typeof store.setState];
+    return [newValue as V, store.setState as (fn: (state: ST) => ST) => void];
   };
 
   return useSelector;

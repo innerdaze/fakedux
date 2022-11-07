@@ -28,8 +28,7 @@ const StateTrigger = ({ id }: StateTriggerProps) => {
 };
 
 const StoreTrigger = ({ id }: StateTriggerProps) => {
-  // const { update } = useUpdateStore();
-  const [clicks, setClicks] = useSelector<number>(clicksSelector);
+  const [clicks, setClicks] = useSelector(clicksSelector);
 
   const handleClicks = React.useCallback(() => {
     setClicks((prev) => ({
@@ -47,16 +46,16 @@ const StoreTrigger = ({ id }: StateTriggerProps) => {
 };
 
 // DEMO
-const metaStatusSelector = createSelector<StoreType>(
-  (state) => state.meta.status
+const metaStatusSelector = createSelector(
+  (state: StoreType) => state.meta.status
 );
 
-const clicksSelector = createSelector<StoreType>(
-  (state) => state.actions.clicks
+const clicksSelector = createSelector(
+  (state: StoreType) => state.actions.clicks
 );
 
 const FirstComponent = React.memo(() => {
-  const [metaStatus] = useSelector<string>(metaStatusSelector);
+  const [metaStatus] = useSelector(metaStatusSelector);
 
   return (
     <div style={{ backgroundColor: 'cyan' }}>
@@ -71,7 +70,7 @@ const FirstComponent = React.memo(() => {
 });
 
 const SecondComponent = React.memo(() => {
-  const [metaStatus] = useSelector<string>(metaStatusSelector);
+  const [metaStatus] = useSelector(metaStatusSelector);
 
   return (
     <div style={{ backgroundColor: 'magenta' }}>
