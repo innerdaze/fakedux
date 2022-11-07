@@ -1,4 +1,4 @@
-import { createStore } from './lib/fakedux';
+import { createStore, createUseSelector } from './lib/fakedux';
 
 const initialState = {
   actions: { clicks: 0 },
@@ -7,5 +7,8 @@ const initialState = {
   },
 };
 
+const store = createStore(initialState);
+
 export type StoreType = typeof initialState;
-export const { getState, setState, subscribe } = createStore(initialState);
+export const { getState, setState, subscribe } = store;
+export const useSelector = createUseSelector(store);
