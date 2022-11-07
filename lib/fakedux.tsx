@@ -42,3 +42,7 @@ export const useStore = <
     React.useCallback(() => selector(store.getState() as ST), [store, selector])
   );
 };
+
+export const createSelector = <ST extends State, V = any>(
+  selector: Selector<ST, V>
+) => selector;

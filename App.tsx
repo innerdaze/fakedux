@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Store } from './lib/createStore';
-import { createSelector, useSelector } from './lib/selectors';
+import { createSelector } from './lib/fakedux';
+import { useSelector } from './hooks/useSelector';
 import { StoreType } from './store';
 // import { StoreProvider, useUpdateStore } from './store';
 import './style.css';
@@ -84,6 +84,7 @@ const StoreTrigger = ({ id }: StateTriggerProps) => {
 const metaStatusSelector = createSelector<StoreType>(
   (state) => state.meta.status
 );
+
 const clicksSelector = createSelector<StoreType>(
   (state) => state.actions.clicks
 );
