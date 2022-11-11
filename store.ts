@@ -1,4 +1,5 @@
-import { createStore, createUseSelector } from './lib/fakedux';
+import { createUseSelector } from './lib/fakedux';
+import { createStore } from './lib/fakedux-store';
 
 const initialState = {
   actions: { clicks: 0 },

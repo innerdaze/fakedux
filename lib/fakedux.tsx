@@ -1,31 +1,6 @@
 import * as React from 'react';
+import { Store } from './fakedux-types';
 
-export const createStore = <State extends Record<string, unknown>>(
-  initialState: State
-) => {
-  let state = initialState;
-  const getState = () => state;
-  const listeners = new Set<Function>();
-
-  const setState = (
-    fn: (state: typeof initialState) => typeof initialState
-  ) => {
-    state = fn(state);
-    listeners.forEach((l) => l());
-  };
-
-  const subscribe = (listener: Function) => {
-    listeners.add(listener);
-    return () => {
-      listeners.delete(listener);
-    };
-  };
-
-  return { getState, setState, subscribe };
-};
-
-export type Store = ReturnType<typeof createStore>;
-export type State = Record<string, unknown>;
 export type Selector<S = any, V = any> = (state: S) => V;
 
 export const useStore = <S extends Store, ST = ReturnType<S['getState']>>(

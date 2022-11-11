@@ -4,6 +4,7 @@ import { StoreType, useSelector } from './store';
 // import { StoreProvider, useUpdateStore } from './store';
 import './style.css';
 import { MountCountWrapper } from './lib/debug';
+import { useStreamSelector, StoreType as StreamStoreType } from './store-rxjs';
 
 // UTILS
 interface StateTriggerProps {
@@ -48,6 +49,7 @@ const StoreTrigger = ({ id }: StateTriggerProps) => {
 // DEMO
 const metaStatusSelector = (state: StoreType) => state.meta.status;
 const clicksSelector = (state: StoreType) => state.actions.clicks;
+const countSelector = (state: StreamStoreType) => state.count;
 
 const clicksDoubledSelector = createSelector(
   clicksSelector,
@@ -56,11 +58,13 @@ const clicksDoubledSelector = createSelector(
 
 const FirstComponent = React.memo(() => {
   const [metaStatus] = useSelector(metaStatusSelector);
+  const [countStream] = useStreamSelector(countSelector);
 
   return (
     <div style={{ backgroundColor: 'cyan' }}>
       <MountCountWrapper id="FirstComponent">
         <p>[State] Meta Status: {metaStatus}</p>
+        <p>[Stream] Count {countStream}</p>
         <StateTrigger id="First State" />
 
         <SecondComponent />
